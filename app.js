@@ -26,10 +26,34 @@ document.querySelector(".btn-roll").addEventListener("click",function(){
     diceDom.style.display = "block";
     // Буусан санамсаргүй тоонд харгалзах шооны зургыг web дээр гаргаж ирнэ
     diceDom.src = 'dice-' + diceNumber + '.png';
-    // тоглогчын ээлжийн оноог өөрчилнө.
+    // Буусан тоо 1ээс ялгаатай бол идэвхтэй тоглогчийн ээлжийн оноог нэмэгдүүлнэ
     if(diceNumber !== 1){
 //1 ээс ялгаатай тоо буулаа.Нэмнэ
+        roundScore = roundScore + diceNumber;
+        document.getElementById("current-" + activePlayer).textContent = roundScore;
     }else{
-// 1 буусан тул тоглогчийн ээлжийг энэн хэсэгт сольж өгнө
-    }
+        roundScore = 0;
+        document.getElementById("current-" + activePlayer).textContent = 0;
+// 1 буусан тул тоглогчийн ээлжийн энэ хэсэгт сольж өгнө
+// Хэрэв идэвхитэй тоглогч нь 0 байвал идэвхтэй тоглогчийг 1 болго.
+// Үгүй бол идэвхтэй тоглогчийг 0 болго.
+// Энэ тоглогчийн ээлжиндээ цуглуулсан оноог 0 болгоно.
+   activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+
+   
+
+   // Улаан цэгийг шилжүүлэх код
+   document.querySelector(".player-0-panel").classList.toggle('active');
+   document.querySelector(".player-1-panel").classList.toggle('active');
+
+   // Шоог түр алга болгоно.
+   diceDom.style.display = "none";
+
+
+// if(activePlayer === 0){
+//     activePlayer = 1;
+// }else{
+//     activePlayer = 0;
+// }
+     }
 });

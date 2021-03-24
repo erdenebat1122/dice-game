@@ -11,6 +11,8 @@ roundScore = 0;
   document.getElementById("current-0").textContent = "0";
   document.getElementById("current-1").textContent = "0";
 function initGame(){
+  //Тоглоом эхэллээ гэдэг төлөвт оруулнаа
+  isNewGame = true;
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
@@ -27,6 +29,7 @@ function initGame(){
   document.querySelector('.player-1-panel').classList.remove('winner');
 
   document.querySelector('player-1-panel').classList.remove('active');
+  document.querySelector('player-0-panel').classList.remove('active');
   document.querySelector('player-0-panel').classList.add('active');
 
   diceDom.style.display = "none";
@@ -35,43 +38,41 @@ function initGame(){
 var diceDom = document.querySelector(".dice");
 // Шоог шидэх Eventlistener
 document.querySelector(".btn-roll").addEventListener("click", function() {
-     // 1- 6 хүртэл санамсаргүй 1 тоог гаргаж авна
+  if(scores[activePlayer] <= 25){
+// 1- 6 хүртэл санамсаргүй 1 тоог гаргаж авна
 
-  var diceNumber = Math.floor(Math.random() * 6) + 1;
+var diceNumber = Math.floor(Math.random() * 6) + 1;
 
-    // шооны зургыг web дээр гаргаж ирнэ
-    diceDom.style.display = "block";
+// шооны зургыг web дээр гаргаж ирнэ
+diceDom.style.display = "block";
 
-    // Буусан санамсаргүй тоонд харгалзах шооны зургыг web дээр гаргаж ирнэ
-    diceDom.src = "dice-" + diceNumber + ".png";
+// Буусан санамсаргүй тоонд харгалзах шооны зургыг web дээр гаргаж ирнэ
+diceDom.src = "dice-" + diceNumber + ".png";
 
-    // Буусан тоо 1ээс ялгаатай бол идэвхтэй тоглогчийн ээлжийн оноог нэмэгдүүлнэ
-    if (diceNumber !== 1) {
-    //1 ээс ялгаатай тоо буулаа.Нэмнэ
-    roundScore = roundScore + diceNumber;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
-  } else {
+// Буусан тоо 1ээс ялгаатай бол идэвхтэй тоглогчийн ээлжийн оноог нэмэгдүүлнэ
+if (diceNumber !== 1) {
+//1 ээс ялгаатай тоо буулаа.Нэмнэ
+roundScore = roundScore + diceNumber;
+document.getElementById("current-" + activePlayer).textContent = roundScore;
+} else {
 // 1 буусан тул тоглогчийн ээлжийн энэ хэсэгт сольж өгнө
-   switchToNextPlayer();
+switchToNextPlayer();
+}
+  }else{
+    alert('Тоглоом дууссан бн New game дарна уу');
   }
 });
 
+
 //HOLD Button-ы Event Listener
 document.querySelector(".btn-hold").addEventListener("click", function() {
-    // Уг тоглогчийн цуглуулсан ээлжний оноог глобал оноон дээр нь нэмж өгнө.
+   if(scores[activePlayer] <= 25){
+    scores[activePlayer] = scores[activePlayer] + roundScore;
 
-  //   if (activePlayer === 0) {
-  //     scores[0] = scores[0] + roundScore;
-  //   } else {
-  //     scores[1] = scores[1] + roundScore;
-  //   }
-
-  scores[activePlayer] = scores[activePlayer] + roundScore;
-
-    // Уг тоглогч хожьсон эсэхийг шалгах (100-аас их эсэх)
     document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
     // Уг тоглогч хожьсон эсэхийг шалгах (100-аас их эсэх)
     if (scores[activePlayer] >= 25) {
+      // Тоглоомыг дууссан төлөвт оруулнa
         // Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
     document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
     document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
@@ -79,8 +80,18 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
   } else {
     // Дэлгэц дээр оноог нь өөрчилнө.
     switchToNextPlayer();
-  }
+  } 
+   }else{
+    alert('Тоглоом дууссан бн New game дарна уу');
+   }
 });
+    // Уг тоглогчийн цуглуулсан ээлжний оноог глобал оноон дээр нь нэмж өгнө.
+
+  //   if (activePlayer === 0) {
+  //     scores[0] = scores[0] + roundScore;
+  //   } else {
+  //     scores[1] = scores[1] + roundScore;
+  //   }
 // Энэ функц нь тоглох ээлжийг дараачийн тоглогч руу шилжүүлдэг
 function switchToNextPlayer() {
     // Тоглогчийн ээлжийг солино.

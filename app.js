@@ -66,12 +66,12 @@ switchToNextPlayer();
 
 //HOLD Button-ы Event Listener
 document.querySelector(".btn-hold").addEventListener("click", function() {
-   if(scores[activePlayer] <= 100){
+   if(scores[activePlayer] <= 30){
     scores[activePlayer] = scores[activePlayer] + roundScore;
 
     document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
     // Уг тоглогч хожьсон эсэхийг шалгах (100-аас их эсэх)
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= 30) {
       // Тоглоомыг дууссан төлөвт оруулнa
         // Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
     document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
